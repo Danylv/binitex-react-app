@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -52,3 +53,7 @@ export default tseslint.config({
   },
 })
 ```
+=======
+# binitex-react-app
+test task pokemon app react typescript frontend api axios vite
+>>>>>>> f4a8f2445ac28e2053003d8d5c53d29c5d426830
