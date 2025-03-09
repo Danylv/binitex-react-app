@@ -1,0 +1,9 @@
+  .card {
+    width: 350px;
+    border-radius: 10px;
+  }
+
+  .cardImg {
+    width: 180px;
+    max-height: 200px; 
+  }
