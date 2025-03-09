@@ -3,31 +3,31 @@ import useAxios from "../../components/useaxios";
 import InputSearch from "../../components/inputsearch";
 import PokemonCard from "../../components/pokemoncard";
 import TableView from "../../components/tableview";
+import { Pokemon } from "../../pokemonDataTypes";
 
 export const PokemonPage = () => {
-  const [searchValue, setSearchValue] = useState("ditto");
+  const [searchValue, setSearchValue] = useState<string | number>("ditto");
 
-  const { response, loading, error, sendData } = useAxios({
+  const { response, loading, error, sendData } = useAxios<Pokemon>({
     method: "GET",
-    url: searchValue,
+    url: ('pokemon/' + searchValue).toString(),
     headers: {
       accept: "*/*",
     },
   });
 
-  const handleSearchSave = (newSearchValue: any) => {
+  const handleSearchSave = (newSearchValue: string | number) => {
     setSearchValue(newSearchValue);
   };
 
   useEffect(() => {
-    if (searchValue !== "ditto") {
+    if (searchValue !== "ditto" && searchValue) {
       sendData();
     }
   }, [searchValue]);
 
   return (
-    <div className="clearfix container">
-
+    <div className="container">
       <InputSearch onSave={handleSearchSave} />
       {loading &&
         <div className="text-center">
@@ -37,7 +37,7 @@ export const PokemonPage = () => {
         </div>}
       {error && (
         <p className="mx-auto text-center text-danger">
-          {error.message} / {String(error.response?.data)}
+          {error.message} / {JSON.stringify(error.response?.data)}
         </p>
       )}
       {!loading && !error && (

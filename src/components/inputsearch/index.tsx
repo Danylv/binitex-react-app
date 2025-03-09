@@ -1,15 +1,21 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-const InputSearch = ({ onSave }: { onSave: (value: string) => void }) => {
+interface InputSearchProps {
+  onSave: (value: string | number) => void;
+}
+
+const InputSearch = ({ onSave }: InputSearchProps) => {
+
   const validationSchema = Yup.object({
     inputsearch: Yup.string()
+      .required('Required some data to search')
       .matches(/^[A-Za-z0-9]+$/, "Only numbers and letters are allowed")
       .min(1, "Minimum 1 character required")
       .max(12, "Maximum 12 characters alowed"),
   });
 
-  const formik = useFormik({
+  const formik= useFormik({
     initialValues: { inputsearch: "" },
     validationSchema: validationSchema,
     validateOnChange: true,
@@ -68,7 +74,7 @@ const InputSearch = ({ onSave }: { onSave: (value: string) => void }) => {
             >
               Search
             </button>
-
+            
             <button
               type='button'
               onClick={handleRandom}

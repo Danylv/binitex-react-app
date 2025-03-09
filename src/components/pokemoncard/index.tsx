@@ -1,30 +1,11 @@
 import styles from './Card.module.css';
-import { PokemonData } from '../tableview';
+import { Pokemon, PokemonColorType } from '../../pokemonDataTypes';
 
 interface PokemonCardProps {
-  pokemonData: PokemonData;
+  pokemonData?: Pokemon;
 }
 
-export enum PokemonType {
-  Bug = "bug",
-  Dragon = "dragon",
-  Electric = "electric",
-  Fairy = "fairy",
-  Fighting = "fighting",
-  Fire = "fire",
-  Flying = "flying",
-  Grass = "grass",
-  Ground = "ground",
-  Ghost = "ghost",
-  Ice = "ice",
-  Normal = "normal",
-  Poison = "poison",
-  Psychic = "psychic",
-  Rock = "rock",
-  Water = "water",
-}
-
-export const typeColor: Record<PokemonType, string> = {
+export const typeColor = {
     bug: "#26de81",
     dragon: "#ffeaa7",
     electric: "#fed330",
@@ -43,10 +24,14 @@ export const typeColor: Record<PokemonType, string> = {
     water: "#0190FF",
 };
   
-const PokemonCard = ( props: PokemonCardProps ) => {
-
-  const themeColor: string = typeColor[props.pokemonData.types[0].type.name as PokemonType];
+const PokemonCard = ({ pokemonData }: PokemonCardProps) => {
   
+   if (!pokemonData) {
+    return <div className='text-uppercase text-gray fs-5 lead opacity-25'>No data available</div>;
+  }
+
+  const themeColor = typeColor[pokemonData.types[0].type.name as PokemonColorType];
+
   return (
     <div className="container-fluid d-flex justify-content-center">
       <div className={`${styles.card} card shadow`} style={{ background: `radial-gradient(circle at 50% 0%, ${themeColor} 36%, #ffffff 36%)` }}>
@@ -54,17 +39,17 @@ const PokemonCard = ( props: PokemonCardProps ) => {
           <div className="d-flex justify-content-end">
             <div className="bg-white rounded-pill px-3 py-1">
               <span className="fw-bold">HP </span>
-              {props.pokemonData.stats[0].base_stat}
+              {pokemonData.stats[0].base_stat}
             </div>
           </div>
 
           <img
-            src={props.pokemonData.sprites.other.dream_world.front_default}
-            alt={props.pokemonData.name}
+            src={pokemonData.sprites.other.dream_world.front_default}
+            alt={pokemonData.name}
             className={`${styles.cardImg} img-fluid d-block mx-auto my-4`}
           />
           <h2 className="text-center fw-bold mb-3">
-            {props.pokemonData.name[0].toUpperCase() + props.pokemonData.name.slice(1)}
+            {pokemonData.name[0].toUpperCase() + pokemonData.name.slice(1)}
           </h2>
 
           <div className="d-flex justify-content-around mb-4">
@@ -72,20 +57,20 @@ const PokemonCard = ( props: PokemonCardProps ) => {
               className="badge rounded-pill text-white px-4 py-2"
               style={{ backgroundColor: themeColor }}
             >
-              {props.pokemonData.types[0].type.name}
+              {pokemonData.types[0].type.name}
             </span>
           </div>
           <div className="d-flex justify-content-between text-center">
             <div>
-              <h3>{props.pokemonData.stats[1].base_stat}</h3>
+              <h3>{pokemonData.stats[1].base_stat}</h3>
               <p className="text-muted">Attack</p>
             </div>
             <div>
-              <h3>{props.pokemonData.stats[2].base_stat}</h3>
+              <h3>{pokemonData.stats[2].base_stat}</h3>
               <p className="text-muted">Defense</p>
             </div>
             <div>
-              <h3>{props.pokemonData.stats[5].base_stat}</h3>
+              <h3>{pokemonData.stats[5].base_stat}</h3>
               <p className="text-muted">Speed</p>
             </div>
           </div>
