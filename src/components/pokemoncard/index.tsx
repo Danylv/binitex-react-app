@@ -33,8 +33,8 @@ const PokemonCard = ({ pokemonData }: PokemonCardProps) => {
   const themeColor = typeColor[pokemonData.types[0].type.name as PokemonColorType];
 
   return (
-    <div className="container-fluid d-flex justify-content-center">
-      <div className={`${styles.card} card shadow`} style={{ background: `radial-gradient(circle at 50% 0%, ${themeColor} 36%, #ffffff 36%)` }}>
+    <div className="container d-flex justify-content-center">
+      <div className={`${styles.card} shadow`} style={{ background: `radial-gradient(circle at 50% 0%, ${themeColor} 36%, #ffffff 36%)` }}>
         <div className="card-body p-4">
           <div className="d-flex justify-content-end">
             <div className="bg-white rounded-pill px-3 py-1">
@@ -48,8 +48,8 @@ const PokemonCard = ({ pokemonData }: PokemonCardProps) => {
             alt={pokemonData.name}
             className={`${styles.cardImg} img-fluid d-block mx-auto my-4`}
           />
-          <h2 className="text-center fw-bold mb-3">
-            {pokemonData.name[0].toUpperCase() + pokemonData.name.slice(1)}
+          <h2 className="text-center bebas-neue-bold mb-3 text-capitalize">
+            {pokemonData.name}
           </h2>
 
           <div className="d-flex justify-content-around mb-4">

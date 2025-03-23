@@ -6,16 +6,14 @@ interface InputSearchProps {
 }
 
 const InputSearch = ({ onSave }: InputSearchProps) => {
-
   const validationSchema = Yup.object({
     inputsearch: Yup.string()
-      .required('Required some data to search')
+      .required("Required some data to search")
       .matches(/^[A-Za-z0-9]+$/, "Only numbers and letters are allowed")
-      .min(1, "Minimum 1 character required")
       .max(12, "Maximum 12 characters alowed"),
   });
 
-  const formik= useFormik({
+  const formik = useFormik({
     initialValues: { inputsearch: "" },
     validationSchema: validationSchema,
     validateOnChange: true,
@@ -24,6 +22,11 @@ const InputSearch = ({ onSave }: InputSearchProps) => {
       formik.resetForm();
     },
   });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    formik.handleChange(e);
+    formik.setFieldTouched("inputsearch", true, false);
+  };
 
   const handleRandom = () => {
     const random_id = Math.floor(Math.random() * 300) + 1;
@@ -35,67 +38,65 @@ const InputSearch = ({ onSave }: InputSearchProps) => {
       className='navbar navbar-expand-lg navbar-primary bg-primary sticky-top pt-2 mb-4'
       data-bs-theme='light'
     >
-      <div className='container'>
+      <div className='container d-lg-flex d-sm-block justify-content-md-between justify-content-sm-center'>
         <a
-          className='d-lg-block d-none navbar-brand roboto-condensed-bold fs-4 text-light fb-bolder mb-1'
+          className='d-lg-block d-none navbar-brand text-light text-uppercase'
           href='/'
         >
-          Pokemon Search APP
+          <span className='francois-one fs-logo'>pokemon search app</span>
         </a>
 
-        <div className='d-flex w-100'>
-          <div className='input-group has-validation'>
-            <span className='d-lg-block d-none input-group-text'>
-              Type Pokemon name or ID number{" "}
-              <i className='mx-2 bi bi-search'></i>
-            </span>
-            <input
-              type='search'
-              id='inputsearch'
-              name='inputsearch'
-              placeholder='Search'
-              value={formik.values.inputsearch}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              aria-describedby='validationTooltipUsernamePrepend'
-              className={`form-control me-2 ${
-                formik.touched.inputsearch && formik.errors.inputsearch
-                  ? "is-invalid"
-                  : ""
-              }`}
+        <div className='input-group has-validation mx-md-5 mx-sm-1'>
+          <span className='d-lg-block input-group-text'>
+            Search <i className='mx-2 bi bi-search'></i>
+          </span>
+          <input
+            type='search'
+            id='inputsearch'
+            name='inputsearch'
+            placeholder='Name or ID number'
+            value={formik.values.inputsearch}
+            onChange={handleInputChange}
+            onBlur={formik.handleBlur}
+            className={`form-control ${
+              formik.touched.inputsearch && formik.errors.inputsearch
+                ? "is-invalid"
+                : ""
+            }`}
+          />
+          {formik.touched.inputsearch && formik.errors.inputsearch ? (
+            <div className='invalid-tooltip rounded'>
+              {formik.errors.inputsearch}
+            </div>
+          ) : null}
+          <button
+            type='button'
+            onClick={() => formik.handleSubmit()}
+            className='btn btn-warning'
+          >
+            Search
+          </button>
+
+          <button
+            type='button'
+            onClick={handleRandom}
+            className='pe-3 mx-3 mx-sm-1 btn btn-danger rounded'
+          >
+            Random
+          </button>
+        </div>
+        <div className='d-lg-block d-none mx-3 mb-1'>
+          <a
+            href='https://pokeapi.co'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <img
+              src='/pokeapi_256.3fa72200.png'
+              alt='PokeAPI Data'
+              width='80px'
             />
-            {formik.touched.inputsearch && formik.errors.inputsearch ? (
-              <div className='invalid-tooltip'>{formik.errors.inputsearch}</div>
-            ) : null}
-            <button
-              type='button'
-              onClick={() => formik.handleSubmit()}
-              className='btn btn-warning'
-            >
-              Search
-            </button>
-            
-            <button
-              type='button'
-              onClick={handleRandom}
-              className='pe-3 mx-3 btn btn-danger'
-            >
-              Random
-            </button>
-          </div>
-          <div className='d-lg-block d-none mx-3 mb-1'>
-            <a
-              href='https://pokeapi.com'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              <img
-                src='http://localhost:5173/pokeapi_256.3fa72200.png'
-                alt='PokeAPI Data'
-                width='80'
-              />
-            </a>
-          </div>
+          </a>
         </div>
       </div>
     </nav>
